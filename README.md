@@ -1,9 +1,5 @@
-# Relation-extraction
-
-First NLP project for DS201
-
+# Improving Semantic Relation Extraction System with Shortest Dependency Path
 Presentation: https://drive.google.com/file/d/15wI1wEjx5oPcLP9qO_LwUoaUwolhMJg6/view?usp=share_link
-
 Report: https://drive.google.com/file/d/1ev6AhwPH10waH9YuJCfRrS3pFJviFDXx/view?usp=sharing
 
 Relation Extraction (RE) is the task of finding the relation which exists between two words (or groups of words) in a sentence. However, there are different ways of expressing the same kind of relationship. An effective solution needs to be able to account for useful semantic and syntactic features not only for the meanings of the target entities at the lexical level but also for their immediate context and for the overall sentence structure.  Shortest path dependency is used for this task to extract the most informative words that make the most influence to the type of the relationship. We also consider a feature-based method that incorporate with other features like entity position encoding or grammar relation.
