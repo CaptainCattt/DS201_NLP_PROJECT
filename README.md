@@ -1,7 +1,7 @@
 # Improving Semantic Relation Extraction System with Shortest Dependency Path
 
   - Hieu Nguyen Hung Trung
-  - Hien Trinh The1
+  - Hien Trinh The
   - Hoang Luu Quang Tien
   - Nhan Nguyen Thanh
 
