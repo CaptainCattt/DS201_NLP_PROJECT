@@ -4,11 +4,10 @@
   - Hien Trinh The1
   - Hoang Luu Quang Tien
   - Nhan Nguyen Thanh
-  - 
-Faculty of Information Science and Engineering, University of
-Information Technology, Linh Trung, Thu Duc City, Ho Chi
 
-Minh City, Vietnam.
+Faculty of Information Science and Engineering, University of
+Information Technology, Linh Trung, Thu Duc City, Ho Chi Minh City, Vietnam.
+
 Presentation: https://drive.google.com/file/d/15wI1wEjx5oPcLP9qO_LwUoaUwolhMJg6/view?usp=share_link
 
 Report: https://drive.google.com/file/d/1ev6AhwPH10waH9YuJCfRrS3pFJviFDXx/view?usp=sharing
