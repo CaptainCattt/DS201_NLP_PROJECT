@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        .box {
+            padding:10px;
+            margin:0 60px;
+            border-radius:99px;
+            border:2px solid rgb(131, 131, 131);
+            display:inline-block;
+            position:relative;
+        }
+        .box::before {
+            content:"";
+            position:absolute;
+            z-index:-1;
+            left:-50px;
+            right:-50px;
+            height:20px;
+            top:calc(50% - 10px);
+            background:
+                /*arrow*/
+                linear-gradient(to bottom right,rgb(131, 131, 131) 49%,transparent 52%) bottom right/15px 50%,
+                linear-gradient(to top right,rgb(131, 131, 131) 49%,transparent 52%) top right/15px 50%,
+                /*circle*/
+                /*line*/
+                linear-gradient(rgb(131, 131, 131),rgb(131, 131, 131)) right center/50px 2px,
+                linear-gradient(rgb(131, 131, 131),rgb(131, 131, 131)) left center /50px 2px;
+            background-repeat:no-repeat;
+        }
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//code.jquery.com/jquery.js"></script>
+    <title>Login</title>
+    <!-- <h3 class="box"></h3> -->
+</head>
+<script>
+    next=false
+    let e1 = [];
+    let e2 = [];
+    $(document).on('click', '.sentencesummit', function(){
+        sentence=$('input#sentence').val()
+        $.ajax({
+            url: '/tokenize',
+            type: 'get',
+            contentType: 'appication/json',
+            data: {
+                'sentence': sentence
+            },
+            success: function(response){
+                a=response.sentence_token
+                for (let i = 0; i < a.length; i++) {
+                    $('div.token_to_choose').append('<button id='+i+' class="token">'+a[i]+'</button>&nbsp')
+                    $('div.token_choosed').append('<h4 id='+i+' class="token2">'+a[i]+'&nbsp</h4>')
+                }
+                $('button.next').removeAttr('hidden')
+                $('button.reset').removeAttr('hidden')
+                $('button.checkrelation').removeAttr('hidden')
+            }
+        })
+    });
+
+    $(document).on('click', '.reset', function(){
+        for (let i = 0; i < e1.length; i++)
+            $('#'+e1[i]+'.token2').css("background-color", "");
+        for (let i = 0; i < e2.length; i++)
+            $('#'+e2[i]+'.token2').css("background-color", "");
+        e1 = []
+        e2 = []
+        next=false
+    });
+
+    $(document).on('click', '.token', function(){
+        id=$(this).attr('id');
+        if (next===false)
+        {
+            $('#'+id+'.token2').css("background-color", "yellow");
+            e1.push(id);
+        }
+        else
+        {
+            $('#'+id+'.token2').css("background-color", "rgb(75, 255, 117)");
+            e2.push(id)
+        }
+        console.log(e1, '_', e2);
+    });
+
+    $(document).on('click', '.next', function(){
+        next=true
+    });
+    
+    $(document).on('click', '.checkrelation', function(){
+        $('.status').text('Keep waiting...')
+        $.ajax({
+            url: '/predict',
+            type: 'get',
+            contentType: 'appication/json',
+            data: {
+                'e1pos': e1,
+                'e2pos': e2,
+            },
+            success: function(response){
+                $('.status').text(response.acc+'%')
+                $('.result_e1').text(response.e1)
+                $('.result_re').text(response.type)
+                $('.result_re').attr('class', 'result_re box')
+                $('.result_e2').text(response.e2)
+            }
+        })
+    });
+</script>
+<body style="background-color: rgb(239, 239, 239);">
+    <fieldset>
+        <table>
+            <tbody>
+                <form>
+                    <h1>Sentence: </h1>
+                    <input size="150" id='sentence' type="text" name="sentence" required><br>
+                    <input class=sentencesummit type="button" value="Send sentence">
+                </form>
+            </tbody>
+        </table>
+    </fieldset>
+    <br>
+    <h3 class=choose_entity>
+            <div class="token_to_choose">
+                <!-- <button class="token" type="button">{{token}}</button> -->
+            </div>
+            <br><br><br>
+            <button class="next" hidden>>>>></button>
+            <button class="reset" type="button" hidden>Reset</button>
+            <button class="checkrelation" hidden>Check relation</button>
+            <br><br>
+            <div class="token_choosed" style="display: flex">
+                <!-- <h4 class="token2">{{token}}&nbsp;</h4> -->
+            </div>
+    </h3>
+    <div class="result">
+        <h3 class="status"></h3>
+        <div>
+            <h3 class="result_e1"></h3>
+            <h3 class="result_re"></h3>
+            <h3 class="result_e2"></h3>
+        </div>
+    </div>
+
+</body>
+</html>
